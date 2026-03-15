@@ -26,16 +26,37 @@ This project uses [Poetry](https://python-poetry.org/) for dependency management
 ### Development
 
 - Run tests: `poetry run pytest`
-- Format code: `poetry run black .`
-- Lint code: `poetry run flake8`
-- Type checking: `poetry run mypy .`
 
-## Project Structure
+### Running the Evaluation Test Suite
 
+To run the video clip evaluation test suite:
+
+```bash
+python -m src.test_runner <root_directory>
 ```
-.
-├── pyproject.toml    # Poetry configuration and dependencies
-├── .gitignore        # Git ignore file
-├── README.md         # This file
-└── src/              # Source code (to be created)
+
+Where `<root_directory>` is the path to a directory containing:
+- `clips/` - Directory with video files (any format)
+- `evals/` - Directory with evaluation files
+
+Each video file in `clips/` should have a corresponding evaluation file in `evals/` named `<video_name>-eval.txt`. The evaluation files should contain JSON objects with the following structure:
+```json
+{
+  "score": 85.5,
+  "feedbackText": "Good form, slight improvement needed in follow-through"
+}
 ```
+
+#### Example Directory Structure
+```
+test_data/
+├── clips/
+│   ├── clip1.mp4
+│   ├── clip2.avi
+│   └── clip3.mov
+└── evals/
+    ├── clip1-eval.txt
+    ├── clip2-eval.txt
+    └── clip3-eval.txt
+```
+
