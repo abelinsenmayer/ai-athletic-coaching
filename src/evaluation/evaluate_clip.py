@@ -5,6 +5,7 @@ Clip evaluation module for assessing video files.
 
 from pathlib import Path
 from .eval_result import EvalResult
+from ..google.genai_evaluator import evaluate_video_with_gemini
 
 
 def evaluateClip(clip_path: Path) -> EvalResult:
@@ -19,6 +20,5 @@ def evaluateClip(clip_path: Path) -> EvalResult:
     """
     print(f"Evaluating clip: {clip_path}")
     
-    # TODO: Implement actual evaluation logic
-    # For now, return placeholder values
-    return EvalResult(score=0.0, feedbackText="Evaluation not implemented yet")
+    # Use Google Gemini to evaluate the video
+    return evaluate_video_with_gemini(str(clip_path))
