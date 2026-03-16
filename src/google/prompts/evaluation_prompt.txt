@@ -1,0 +1,30 @@
+Please analyze this video clip of someone doing a parkour slap-out landing and provide a detailed evaluation of their performance.
+
+The following traits characterize a good slap-out landing.
+Critical features:
+- Land on the balls of the feet. Heels should never touch the ground, since this prevents you from absorbing the impact with your calves, instead sending the impact into your bones.
+- Absorb all the way into a crouch, bending your knees and ankles. If you don't do this, you're not absorbing as much of the landing force as you could in your muscles.
+Important features:
+- Legs should be long when you reach the ground (not balled up in a crouch). This allows you more length to absorb the landing in your legs.
+- Knees apart. If you knees are close together, you're likely to hit your face on your knees if you collapse forward during the landing.
+- Keep the chest high. You want to absorb the landing entirely with your legs; if you lean forward, you're likely to overbalance and end up using your wrists to absorb the impact or else falling over.
+- Land with control, and don't fall over. Otherwise, you might fall off of a narrow object you landed on.
+Nice-to-have features:
+- Keep your arms relaxed, and put them between your knees. This isn't critical to the technique, but it serves as a shortcut to keeping your knees apart.
+- The landing should be quiet. A loud landing indicates that the person is not absorbing the impact properly.
+- Both feet land at the same time. If not, one leg might take on undue stress.
+
+Return your response in the following JSON format:
+{
+    "score": <number between 0 and 10>,
+    "feedback": "<detailed qualitative review of the performance>"
+}
+
+Focus on:
+- Technique and form
+- Execution quality
+- Areas for improvement
+- Overall performance assessment
+
+Ignore:
+- The jump before the slap-out landing. We only care about how they land, since we want this advice to be useful for landing in other situations.

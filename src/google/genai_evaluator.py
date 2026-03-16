@@ -5,7 +5,8 @@ Google Gemini AI evaluator for video clips.
 
 import json
 import re
-import time
+from pathlib import Path
+from typing import Optional
 
 from google import genai
 
@@ -34,21 +35,9 @@ def evaluate_video_with_gemini(video_path: str) -> EvalResult:
         video_file = client.files.get(name=video_file.name)
 
     # Prompt the model to evaluate the video
-    prompt = """
-    Please analyze this video clip of someone doing a parkour slap-out landing and provide a detailed evaluation of their performance.
-    
-    Return your response in the following JSON format:
-    {
-        "score": <number between 0 and 10>,
-        "feedback": "<detailed qualitative review of the performance>"
-    }
-    
-    Focus on:
-    - Technique and form
-    - Execution quality
-    - Areas for improvement
-    - Overall performance assessment
-    """
+    prompt_path = Path(__file__).parent / "prompts" / "evaluation_prompt.txt"
+    with open(prompt_path, 'r', encoding='utf-8') as f:
+        prompt = f.read().strip()
 
     # Analyze with Gemini 3 Flash
     response = client.models.generate_content(
