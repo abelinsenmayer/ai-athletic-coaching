@@ -3,8 +3,6 @@
 AI Athletic Coaching - Evaluation System Package
 """
 
-from .eval_result import EvalResult
-from .evaluate_clip import evaluateClip
-from .grade_evaluation import gradeEvaluation
+from .evaluation import EvalResult, evaluateClip, gradeEvaluation
 
 __all__ = ['EvalResult', 'evaluateClip', 'gradeEvaluation']

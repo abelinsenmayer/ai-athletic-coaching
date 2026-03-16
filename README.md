@@ -32,7 +32,7 @@ This project uses [Poetry](https://python-poetry.org/) for dependency management
 To run the video clip evaluation test suite:
 
 ```bash
-python -m src.test_runner <root_directory>
+python -m tests.test_runner <root_directory>
 ```
 
 Where `<root_directory>` is the path to a directory containing:

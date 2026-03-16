@@ -8,9 +8,9 @@ import json
 import sys
 from pathlib import Path
 
-from .eval_result import EvalResult
-from .evaluate_clip import evaluateClip
-from .grade_evaluation import gradeEvaluation
+from src.evaluation.eval_result import EvalResult
+from src.evaluation.evaluate_clip import evaluateClip
+from src.evaluation.grade_evaluation import gradeEvaluation
 
 
 def parse_eval_file(eval_path: Path) -> EvalResult:

@@ -6,7 +6,7 @@ Grading module for comparing evaluation results.
 from dataclasses import dataclass
 from decimal import Decimal
 from .eval_result import EvalResult
-from .ollama.ollama_prompt import ollama_prompt
+from ..ollama.ollama_prompt import ollama_prompt
 
 
 @dataclass
