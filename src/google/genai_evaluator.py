@@ -5,9 +5,8 @@ Google Gemini AI evaluator for video clips.
 
 import json
 import re
+import time
 from pathlib import Path
-from typing import Optional
-
 from google import genai
 
 from ..evaluation.eval_result import EvalResult
