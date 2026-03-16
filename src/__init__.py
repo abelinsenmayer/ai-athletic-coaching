@@ -5,6 +5,6 @@ AI Athletic Coaching - Evaluation System Package
 
 from .eval_result import EvalResult
 from .evaluate_clip import evaluateClip
-from .grade_evaluations import gradeEvaluations
+from .grade_evaluation import gradeEvaluation
 
-__all__ = ['EvalResult', 'evaluateClip', 'gradeEvaluations']
+__all__ = ['EvalResult', 'evaluateClip', 'gradeEvaluation']

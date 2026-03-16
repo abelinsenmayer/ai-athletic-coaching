@@ -10,7 +10,7 @@ from pathlib import Path
 
 from .eval_result import EvalResult
 from .evaluate_clip import evaluateClip
-from .grade_evaluations import gradeEvaluations
+from .grade_evaluation import gradeEvaluation
 
 
 def parse_eval_file(eval_path: Path) -> EvalResult:
@@ -112,6 +112,7 @@ def main():
     print(f"Found {len(pairs)} clip-eval pairs")
     
     # Process each pair
+    grades = []
     for clip_path, eval_path in pairs:
         print(f"\nProcessing: {clip_path.name}")
         
@@ -122,9 +123,18 @@ def main():
         actual_result = evaluateClip(clip_path)
         
         # Grade the evaluation
-        gradeEvaluations(expected_result, actual_result)
+        grade = gradeEvaluation(expected_result, actual_result)
+        grades.append(grade)
     
     print(f"\nCompleted processing {len(pairs)} clips")
+    
+    # Calculate average grades
+    if grades:
+        avg_feedback_accuracy = sum(g.feedbackAccuracy for g in grades) / len(grades)
+        avg_score_accuracy = sum(g.scoreAccuracy for g in grades) / len(grades)
+        print(f"\nAverage grades:")
+        print(f"  Feedback accuracy: {avg_feedback_accuracy}/10")
+        print(f"  Score accuracy: {avg_score_accuracy}/10")
 
 
 if __name__ == "__main__":
