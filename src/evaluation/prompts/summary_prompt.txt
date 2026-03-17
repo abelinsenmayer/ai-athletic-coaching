@@ -1,0 +1,5 @@
+Please analyze the following assessment texts from multiple coaching evaluations and identify key patterns, strengths, and areas for improvement across all test cases.
+Use bullet points to organize your summary.
+Do not ask follow-up questions.
+
+{assessment_texts}

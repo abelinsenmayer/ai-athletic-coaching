@@ -1,0 +1,4 @@
+{
+  "score": 10.0,
+  "feedbackText": "\n- Critical issues: None.\n- Important issues: None\n- Nice-to-have improvements: \n- Positive aspects: The landing is performed on the balls of the feet, and the knees are kept comfortably apart. The performer successfully absorbs the force into a full crouch."
+}

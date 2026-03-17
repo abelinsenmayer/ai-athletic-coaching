@@ -3,13 +3,14 @@
 Google Gemini AI evaluator for video clips.
 """
 
-import json
-import re
 import time
 from pathlib import Path
 from google import genai
+from google.genai import types
 
 from ..evaluation.eval_result import EvalResult
+
+GEMINI_MODEL = "gemini-3.1-flash-lite-preview"
 
 def evaluate_video_with_gemini(video_path: str) -> EvalResult:
     """
@@ -38,26 +39,33 @@ def evaluate_video_with_gemini(video_path: str) -> EvalResult:
     with open(prompt_path, 'r', encoding='utf-8') as f:
         prompt = f.read().strip()
 
+    # Configure for low-cost video analysis
+    config = types.GenerateContentConfig(
+        media_resolution=types.MediaResolution.MEDIA_RESOLUTION_LOW
+    )
+
+
     # Analyze with Gemini 3 Flash
     response = client.models.generate_content(
-        model="gemini-3-flash-preview",
+        model=GEMINI_MODEL,
         contents=[
             video_file,
             prompt,
-        ]
+        ],
+        config=config
     )
     
     # Parse the response to extract score and feedback
     try:
-        # Try to extract JSON from the response
-        json_match = re.search(r'\{[^}]+\}', response.text, re.DOTALL)
-        if json_match:
-            result_data = json.loads(json_match.group())
-            score = float(result_data.get("score", 0.0))
-            feedback = result_data.get("feedback", "No feedback provided")
+        lines = response.text.strip().split('\n')
+        if len(lines) >= 2:
+            # First line should be the score
+            score = float(lines[0].strip())
+            # Rest of the lines are the feedback
+            feedback = '\n'.join(lines[1:]).strip()
         else:
-            raise ValueError("No JSON found in AI response")
-    except (json.JSONDecodeError, ValueError) as e:
+            raise ValueError("Response doesn't have enough lines")
+    except (ValueError, IndexError) as e:
         raise RuntimeError(f"Failed to parse AI response: {response.text}") from e
     
     # Ensure score is within valid range

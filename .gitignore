@@ -186,4 +186,4 @@ Desktop.ini
 *.sqlite
 config.json
 secrets.json
-slapout_landing_clips
+slapout_landing_clips/clips/*

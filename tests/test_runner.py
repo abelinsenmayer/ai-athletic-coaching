@@ -11,6 +11,7 @@ from pathlib import Path
 from src.evaluation.eval_result import EvalResult
 from src.evaluation.evaluate_clip import evaluateClip
 from src.evaluation.grade_evaluation import gradeEvaluation
+from src.ollama.ollama_prompt import ollama_prompt
 
 
 def parse_eval_file(eval_path: Path) -> EvalResult:
@@ -113,6 +114,7 @@ def main():
     
     # Process each pair
     grades = []
+    assessment_texts = []
     for clip_path, eval_path in pairs:
         print(f"\nProcessing: {clip_path.name}")
         
@@ -125,16 +127,45 @@ def main():
         # Grade the evaluation
         grade = gradeEvaluation(expected_result, actual_result)
         grades.append(grade)
+        
+        # Collect assessment text if available
+        if grade.assessmentText:
+            assessment_texts.append(grade.assessmentText)
     
     print(f"\nCompleted processing {len(pairs)} clips")
     
     # Calculate average grades
     if grades:
-        avg_feedback_accuracy = sum(g.feedbackAccuracy for g in grades) / len(grades)
+        avg_coaching_accuracy = sum(g.coachingAccuracy for g in grades) / len(grades)
+        avg_feedback_relevance = sum(g.feedbackRelevance for g in grades) / len(grades)
+        avg_coaching_tone = sum(g.coachingTone for g in grades) / len(grades)
         avg_score_accuracy = sum(g.scoreAccuracy for g in grades) / len(grades)
-        print(f"\nAverage grades:")
-        print(f"  Feedback accuracy: {avg_feedback_accuracy}/10")
-        print(f"  Score accuracy: {avg_score_accuracy}/10")
+        print(f"\n=== AVERAGE GRADES ===")
+        print(f"  Coaching accuracy: {avg_coaching_accuracy:.2f}/10")
+        print(f"  Feedback relevance: {avg_feedback_relevance:.2f}/10")
+        print(f"  Coaching tone: {avg_coaching_tone:.2f}/10")
+        print(f"  Score accuracy: {avg_score_accuracy:.2f}/10")
+        
+        # Generate summary of assessment patterns using ollama
+        if assessment_texts:
+            print(f"\nGenerating feedback pattern summary...")
+            
+            # Load summary prompt from file
+            summary_prompt_path = Path(__file__).parent.parent / "src" / "evaluation" / "prompts" / "summary_prompt.txt"
+            try:
+                with open(summary_prompt_path, 'r', encoding='utf-8') as f:
+                    summary_prompt_template = f.read()
+                
+                summary_prompt = summary_prompt_template.format(
+                    assessment_texts='---'.join(assessment_texts)
+                )
+                
+                summary = ollama_prompt(summary_prompt)
+                print(f"\n=== FEEDBACK PATTERN SUMMARY ===")
+                print(summary)
+                print("================================")
+            except Exception as e:
+                print(f"Error generating summary: {e}")
 
 
 if __name__ == "__main__":

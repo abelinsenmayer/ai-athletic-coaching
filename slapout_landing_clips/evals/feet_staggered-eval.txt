@@ -1,0 +1,4 @@
+{
+  "score": 9.0,
+  "feedbackText": "\n- Critical issues: None.\n- Important issues: None.\n- Nice-to-have improvements:\n    - The landing could be slightly quieter to show better control over the impact.\n    - Ensuring both feet land simultaneously would further improve stability.\n- Positive aspects:\n    - Excellent execution of the landing: landed on the balls of the feet with heels off the ground.\n    - Absorbed the force well by crouching deeply, keeping the chest high, and maintaining a wide knee stance for stability.\n    - Demonstrated good control, maintaining balance throughout the movement."
+}

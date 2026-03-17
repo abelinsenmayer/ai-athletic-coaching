@@ -1,0 +1,4 @@
+{
+  "score": 4.0,
+  "feedbackText": "\n- Critical issues: \n\t- The jumper did not absorb fully into a crouch when landing. They should bend their knees more to take advantage of their leg muscles.\n- Important issues:\n  - The jumper's chest leans significantly forward during the landing rather than staying upright, which risks an overbalance.\n- Nice-to-have improvements:\n  - Arms should be placed between the knees during the absorption phase to naturally maintain separation and improve balance.\n- Positive aspects:\n  - Excellent use of the balls of the feet for landing, with the heels remaining elevated throughout the impact.\n  - The landing is controlled with no loss of balance or collapse."
+}

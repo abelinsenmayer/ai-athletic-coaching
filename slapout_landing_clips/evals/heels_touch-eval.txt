@@ -1,0 +1,4 @@
+{
+  "score": 4,
+  "feedbackText": "\n- Critical issues: \n\t- The jumper's heels land hard instead of keeping to the balls of the feet, which means their skeletal structure takes the brunt of the impact instead of absorbing in the calves.\n- Important issues: None.\n- Nice-to-have improvements:\n    - Landing with both feet simultaneously would help distribute the force more evenly.\n- Positive aspects:\n    - They effectively absorb the impact by bending their knees into a full, controlled crouch.\n    - The jumper keeps their knees apart throughout the landing, which is crucial for safety.\n    - They maintain good control upon landing and do not fall over."
+}

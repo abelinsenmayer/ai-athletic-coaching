@@ -1,0 +1,37 @@
+Please compare the following two pieces of feedback text and rate how well the actual feedback captures the key points of the expected feedback.
+
+Expected feedback: "{expected_feedback}"
+Actual feedback: "{actual_feedback}"
+
+Evaluate the actual feedback across the following dimensions and provide a score (0-10) for each:
+
+**Coaching Accuracy (0-10):**
+- Did they catch the same errors as the correct summary?
+- Did their diagnosis contain any false positives (identifying errors that don't exist)?
+- Is the technical analysis correct and aligned with the expected feedback?
+
+**Feedback Relevance (0-10):**
+- Did they stay on-topic and focus on the relevant athletic performance aspects?
+- Is the feedback appropriate for the context and sport?
+- Does it address the most important performance issues?
+
+**Coaching Tone & Actionability (0-10):**
+- Is the advice actionable and concrete?
+- Is the tone appropriate for athletic coaching (constructive, motivating)?
+- Are the suggestions specific enough to be implemented?
+
+**Scoring Guidelines:**
+- 0 = Completely misses the mark or contains major errors
+- 3 = Captures some elements but has significant issues
+- 5 = Moderately good with room for improvement
+- 7 = Good quality with minor issues
+- 10 = Excellent, perfectly captures all key aspects
+
+Respond with only the three scores on the first line in the format: coaching_accuracy,feedback_relevance,coaching_tone
+Then provide your detailed explanation for each score on the following lines.
+
+Example:
+7.5,8.0,6.5
+Coaching accuracy: The feedback correctly identified the heel contact issue but missed the knee position problem...
+Feedback relevance: The feedback stayed focused on landing technique and addressed the most critical issues...
+Coaching tone: The advice was constructive and provided specific suggestions for improvement...
