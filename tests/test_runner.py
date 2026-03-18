@@ -6,12 +6,18 @@ Test runner for video clip evaluation system.
 import argparse
 import json
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from src.evaluation.eval_result import EvalResult
 from src.evaluation.evaluate_clip import evaluateClip
 from src.evaluation.grade_evaluation import gradeEvaluation
 from src.ollama.ollama_prompt import ollama_prompt
+from tests.eval_trial import EvalTrial, EvalTrialSuite
+
+# Global thread count for parallel execution
+THREAD_COUNT = 3
 
 
 def parse_eval_file(eval_path: Path) -> EvalResult:
@@ -84,10 +90,62 @@ def find_clip_eval_pairs(root_dir: Path) -> list[tuple[Path, Path]]:
     return pairs
 
 
+def create_trial_suite(root_dir: Path, run_count: int = 3) -> EvalTrialSuite:
+    """
+    Create an EvalTrialSuite from clip-eval pairs in the directory structure.
+    
+    Args:
+        root_dir: Root directory containing clips and evals subdirectories
+        run_count: Number of times each trial should be run (default: 3)
+        
+    Returns:
+        EvalTrialSuite populated with trials for all clip-eval pairs
+    """
+    pairs = find_clip_eval_pairs(root_dir)
+    suite = EvalTrialSuite()
+    
+    for clip_path, eval_path in pairs:
+        # Parse expected result from eval file
+        expected_result = parse_eval_file(eval_path)
+        
+        # Create trial with clip name (without extension)
+        clip_name = clip_path.stem
+        trial = EvalTrial(
+            clip_name=clip_name,
+            expected_result=expected_result,
+            actual_results=[]
+        )
+        
+        # Add trial to suite with specified run count
+        suite.add_trial(trial, run_count)
+    
+    return suite
+
+
+def run_single_trial(clip_path: Path, trial: EvalTrial) -> None:
+    """
+    Run a single evaluation trial and add the result to the trial.
+    
+    Args:
+        clip_path: Path to the video clip file
+        trial: EvalTrial object to store the result
+    """
+    try:
+        # Evaluate the clip
+        actual_result = evaluateClip(clip_path)
+        
+        # Add result to trial (thread-safe)
+        trial.add_actual_result(actual_result)
+        print(f"Completed trial for {trial.clip_name} (run {trial.get_trial_count()})")
+    except Exception as e:
+        print(f"Error running trial for {trial.clip_name}: {e}")
+
+
 def main():
     """Main function for the test runner."""
     parser = argparse.ArgumentParser(description='Test video clip evaluation system')
     parser.add_argument('root_dir', type=Path, help='Root directory containing clips and evals subdirectories')
+    parser.add_argument('--trials', type=int, default=3, help='Number of times each trial should be run (default: 3)')
     
     args = parser.parse_args()
     
@@ -100,37 +158,61 @@ def main():
     # Validate directory structure
     validate_directory_structure(root_dir)
     
-    # Find clip-eval pairs
-    pairs = find_clip_eval_pairs(root_dir)
+    # Create trial suite
+    suite = create_trial_suite(root_dir, args.trials)
     
-    if not pairs:
+    if not suite.get_all_trials():
         print("No clip-eval pairs found")
         sys.exit(1)
     
-    print(f"Found {len(pairs)} clip-eval pairs")
+    print(f"Created trial suite with {len(suite.get_all_trials())} trials")
+    print(f"Each trial will run {args.trials} times")
+    print(f"Total expected runs: {suite.get_total_expected_runs()}")
+    print(f"Using {THREAD_COUNT} threads for parallel execution")
     
-    # Process each pair
-    grades = []
-    assessment_texts = []
-    for clip_path, eval_path in pairs:
-        print(f"\nProcessing: {clip_path.name}")
+    # Run trials in parallel
+    clips_dir = root_dir / 'clips'
+    
+    with ThreadPoolExecutor(max_workers=THREAD_COUNT) as executor:
+        # Submit all trial runs to the executor
+        futures = []
         
-        # Parse expected result from eval file
-        expected_result = parse_eval_file(eval_path)
+        for clip_name, trial in suite.get_all_trials().items():
+            clip_path = clips_dir / f"{clip_name}.mp4"  # Assuming mp4 extension
+            
+            # Submit the trial the required number of times
+            for run_num in range(suite.get_run_count(clip_name)):
+                future = executor.submit(run_single_trial, clip_path, trial)
+                futures.append(future)
         
-        # Evaluate the clip
-        actual_result = evaluateClip(clip_path)
+        # Wait for all futures to complete
+        for future in as_completed(futures):
+            try:
+                future.result()  # This will raise any exceptions that occurred
+            except Exception as e:
+                print(f"Trial execution error: {e}")
+    
+    print(f"\nCompleted processing. Total runs completed: {suite.get_completed_runs()}")
+    
+    # Grade all trials and collect results
+    all_grades = []
+    for clip_name, trial in suite.get_all_trials().items():
+        print(f"\nGrading trial: {clip_name}")
+        print(f"  Runs completed: {trial.get_trial_count()}")
         
-        # Grade the evaluation
-        grade = gradeEvaluation(expected_result, actual_result)
-        grades.append(grade)
+        # Grade each actual result against the expected result
+        trial_grades = []
+        for i, actual_result in enumerate(trial.actual_results):
+            grade = gradeEvaluation(trial.expected_result, actual_result)
+            trial_grades.append(grade)
+            print(f"  Run {i+1} accuracy: {grade.get_accuracy_percentage():.2%}")
         
-    print(f"\nCompleted processing {len(pairs)} clips")
+        all_grades.extend(trial_grades)
     
     # Calculate and display accuracy results
-    if grades:
+    if all_grades:
         # Calculate overall average accuracy
-        overall_accuracies = [g.get_accuracy_percentage() for g in grades]
+        overall_accuracies = [g.get_accuracy_percentage() for g in all_grades]
         avg_overall_accuracy = sum(overall_accuracies) / len(overall_accuracies)
         
         print(f"\n=== OVERALL ACCURACY ===")
@@ -140,7 +222,7 @@ def main():
         criterion_accuracies = {}
         criterion_counts = {}
         
-        for grade in grades:
+        for grade in all_grades:
             for criterion_name, accuracy in grade.criterion_scores.items():
                 if criterion_name not in criterion_accuracies:
                     criterion_accuracies[criterion_name] = 0.0
