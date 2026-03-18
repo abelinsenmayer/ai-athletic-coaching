@@ -1,4 +1,10 @@
-{
-  "score": 7,
-  "feedbackText": "\n- Critical issues:\n    - None.\n\n- Important issues:\n    - The torso leans forward excessively, which negatively impacts balance and increases the risk of using the arms or wrists to compensate for the imbalance.\n\n- Nice-to-have improvements:\n    - None.\n\n- Positive aspects:\n    - The athlete successfully maintained balance and did not fall over, showing a good level of physical awareness.\n    - Both feet landed simultaneously, which is excellent for even weight distribution.\n\t- Landed on the balls of the feet. Heels did not touch the floor.\n\t- Absorbed impact completely in the legs."
-}
+Land on balls of feet,1.0
+Absorb into crouch,1.0
+Legs long at ground contact,1.0
+Knees apart,1.0
+Chest high,0.5
+Land with control,1.0
+Feet close together,1.0
+Arms relaxed between knees,0.5
+Quiet landing,0.5
+Simultaneous foot contact,1.0

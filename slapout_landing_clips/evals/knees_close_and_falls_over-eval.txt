@@ -1,4 +1,10 @@
-{
-  "score": 4.0,
-  "feedbackText": "\n- Critical issues:\n  - The person collapsed into a seated position immediately upon contact, failing to absorb the impact through the legs.\n  - Failed to absorb the landing in a controlled crouch, instead landing directly on their seat.\n- Important issues:\n\t- Knees were close together at time of landing, which risks hitting the face on the knees.\n  - Did not maintain control; the person fell onto their side immediately upon landing.\n  - The chest did not remain high, as the body collapsed completely upon impact.\n- Nice-to-have improvements:\n  - The landing was quite loud, which indicates a failure to properly absorb the force of the jump.\n- Positive aspects: \n\t- Landed on the balls of the feet, and heels never touched the ground."
-}
+Land on balls of feet,1.0
+Absorb into crouch,0.0
+Legs long at ground contact,0.0
+Knees apart,0.5
+Chest high,0.0
+Land with control,0.0
+Feet close together,1.0
+Arms relaxed between knees,0.5
+Quiet landing,0.0
+Simultaneous foot contact,1.0

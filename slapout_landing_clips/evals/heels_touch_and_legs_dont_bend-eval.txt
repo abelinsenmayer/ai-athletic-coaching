@@ -1,4 +1,10 @@
-{
-  "score": 2.0,
-  "feedbackText": "\n- Critical issues:\n    - The heels touch the ground almost immediately upon landing, which prevents effective absorption of the impact through the calves and instead forces it into the skeletal system.\n    - The athlete does not absorb the landing into a deep, controlled crouch; the legs remain relatively stiff, which is dangerous for high-impact landings.\n\n- Important issues:\n    - The legs are prematurely bent before hitting the ground rather than extending to maximize absorption space.\n    - The chest drops significantly forward during the landing, which increases the risk of overbalancing and falling forward.\n    - The landing lacks complete control, as evidenced by the athlete stumbling forward after the impact.\n\n- Nice-to-have improvements:\n    - The landing is not completely silent, indicating that the impact is not being fully dissipated by the muscles.\n    - Attempt to keep the arms positioned between the knees to assist in maintaining a stable, wide base.\n\n- Positive aspects:\n    - The athlete does a good job of keeping the knees apart, which is an important safety precaution for this maneuver.\n    - Both feet land simultaneously, which helps to distribute the impact force evenly across both legs.\n"
-}
+Land on balls of feet,0.0
+Absorb into crouch,0.0
+Legs long at ground contact,0.0
+Knees apart,1.0
+Chest high,0.5
+Land with control,0.5
+Feet close together,1.0
+Arms relaxed between knees,0.5
+Quiet landing,0.5
+Simultaneous foot contact,1.0

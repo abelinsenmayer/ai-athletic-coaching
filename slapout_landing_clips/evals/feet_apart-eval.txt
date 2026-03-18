@@ -1,4 +1,10 @@
-{
-  "score": 7.5,
-  "feedbackText": "\n- Critical issues:\n  - None.\n\n- Important issues:\n  - The jumper's legs were quite bent before hitting the ground, which reduced the available distance to absorb the impact. Aim to keep the legs more extended while mid-air to maximize the absorption range upon impact.\n  - The jumper leaned forward significantly during the landing, which can lead to an unbalanced landing.\n  - The jumper's feet landed far part, resulting in a failure to absorb the impact entirely, since they couldn't crouch all the way.\n\n- Nice-to-have improvements:\n  - The landing was audible, which suggests that the impact could be dampened more effectively with a smoother, more controlled absorption.\n\n- Positive aspects:\n  - The jumper successfully avoided landing on their heels, ensuring the impact was absorbed by the muscles rather than the skeletal structure.\n  - Both feet landed simultaneously, which is excellent for evenly distributing the force of the landing.\n  - The landing was stable and controlled, with no loss of balance or falling."
-}
+Land on balls of feet,1.0
+Absorb into crouch,0.5
+Legs long at ground contact,0.0
+Knees apart,1.0
+Chest high,0.5
+Land with control,1.0
+Feet close together,0.0
+Arms relaxed between knees,0.5
+Quiet landing,0.5
+Simultaneous foot contact,1.0

@@ -6,80 +6,60 @@ Grading module for comparing evaluation results.
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
-from .eval_result import EvalResult
+from typing import Dict
+from .eval_result import EvalResult, CriterionScore, PerformanceLevel
 from ..ollama.ollama_prompt import ollama_prompt
 
 
 @dataclass
 class EvaluationGrade:
     """Data class containing grading results for evaluation comparisons."""
-    coachingAccuracy: Decimal
-    feedbackRelevance: Decimal
-    coachingTone: Decimal
-    scoreAccuracy: Decimal
-    assessmentText: str
+    criterion_scores: Dict[str, Decimal]
+    
+    def get_accuracy_percentage(self) -> Decimal:
+        """Calculate overall accuracy as percentage."""
+        if not self.criterion_scores:
+            return Decimal('0')
+        
+        total_score = sum(self.criterion_scores.values())
+        return total_score / Decimal(len(self.criterion_scores))
 
 
 def gradeEvaluation(expected: EvalResult, actual: EvalResult) -> EvaluationGrade:
     """
-    Compare expected and actual evaluation results.
+    Compare expected and actual evaluation results based on criterion scores.
     
     Args:
         expected: The correct evaluation result from the eval file
         actual: The evaluation result returned by evaluateClip
+        
+    Returns:
+        EvaluationGrade with criterion-by-criterion accuracy scores
     """
-    print(f"Expected result: score={expected.score}, feedback='{expected.feedbackText}'")
-    print(f"Actual result: score={actual.score}, feedback='{actual.feedbackText}'")
+    # Create lookup for expected criteria
+    expected_criteria = {c.name: c.performance for c in expected.criteria_scores}
     
-    # Load grading prompt from file
-    prompt_path = Path(__file__).parent / "prompts" / "grading_prompt.txt"
-    try:
-        with open(prompt_path, 'r', encoding='utf-8') as f:
-            prompt_template = f.read()
-    except Exception as e:
-        print(f"Error loading grading prompt: {e}")
-        # Fallback to default values
-        return EvaluationGrade(
-            coachingAccuracy=Decimal('0'),
-            feedbackRelevance=Decimal('0'),
-            coachingTone=Decimal('0'),
-            scoreAccuracy=Decimal(10 - abs(expected.score - actual.score)),
-            assessmentText=""
-        )
+    # Compare each actual criterion against expected
+    criterion_scores = {}
     
-    # Format the prompt with expected and actual feedback
-    grading_prompt = prompt_template.format(
-        expected_feedback=expected.feedbackText,
-        actual_feedback=actual.feedbackText
-    )
-    
-    try:
-        grade_response = ollama_prompt(grading_prompt)
-        # Parse the first line for the three scores: coaching_accuracy,feedback_relevance,coaching_tone
-        lines = grade_response.strip().split('\n')
-        if len(lines) >= 1:
-            first_line = lines[0].strip()
-            scores = first_line.split(',')
-            if len(scores) == 3:
-                coaching_accuracy = Decimal(scores[0].strip())
-                feedback_relevance = Decimal(scores[1].strip())
-                coaching_tone = Decimal(scores[2].strip())
-            else:
-                print(f"Unexpected score format on first line: {first_line}")
-                coaching_accuracy = feedback_relevance = coaching_tone = Decimal('0')
-            assessment_text = '\n'.join(lines[1:])
-            print(f"Assessment text: {assessment_text}")
+    for actual_criterion in actual.criteria_scores:
+        criterion_name = actual_criterion.name
+        
+        if criterion_name in expected_criteria:
+            expected_performance = expected_criteria[criterion_name]
+            actual_performance = actual_criterion.performance
+            
+            # Score is 1.0 if match, 0.0 if mismatch
+            accuracy_score = Decimal('1.0') if expected_performance == actual_performance else Decimal('0.0')
+            criterion_scores[criterion_name] = accuracy_score
         else:
-            print(f"Empty response from grader")
-            coaching_accuracy = feedback_relevance = coaching_tone = Decimal('0')
-    except Exception as e:
-        print(f"Error comparing feedback text: {e}")
-        coaching_accuracy = feedback_relevance = coaching_tone = Decimal('0')
+            # If criterion not found in expected, mark as incorrect
+            criterion_scores[criterion_name] = Decimal('0.0')
     
-    return EvaluationGrade(
-        coachingAccuracy=coaching_accuracy,
-        feedbackRelevance=feedback_relevance,
-        coachingTone=coaching_tone,
-        scoreAccuracy=Decimal(10 - abs(expected.score - actual.score)),
-        assessmentText=assessment_text,
-    )
+    # Check for expected criteria that weren't evaluated in actual
+    for expected_criterion in expected.criteria_scores:
+        if expected_criterion.name not in criterion_scores:
+            criterion_scores[expected_criterion.name] = Decimal('0.0')
+    
+    return EvaluationGrade(criterion_scores=criterion_scores)
+    

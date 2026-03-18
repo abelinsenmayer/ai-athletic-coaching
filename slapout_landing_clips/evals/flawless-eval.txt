@@ -1,4 +1,10 @@
-{
-  "score": 10.0,
-  "feedbackText": "\n- Critical issues: None.\n- Important issues: None\n- Nice-to-have improvements: \n- Positive aspects: The landing is performed on the balls of the feet, and the knees are kept comfortably apart. The performer successfully absorbs the force into a full crouch."
-}
+Land on balls of feet,1.0
+Absorb into crouch,1.0
+Legs long at ground contact,1.0
+Knees apart,1.0
+Chest high,1.0
+Land with control,1.0
+Feet close together,1.0
+Arms relaxed between knees,1.0
+Quiet landing,1.0
+Simultaneous foot contact,1.0

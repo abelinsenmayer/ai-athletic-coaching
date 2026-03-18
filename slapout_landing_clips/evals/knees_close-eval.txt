@@ -1,4 +1,10 @@
-{
-  "score": 7.0,
-  "feedbackText": "\n- Critical issues: None\n- Important issues:\n\t- The athlete's knees are slightly close together upon landing; aim to keep them wider to prevent accidental facial contact.\n- Nice-to-have improvements:\n  - The landing was slightly audible; aim for a softer impact by focusing on a more gradual deceleration through the joints.\n- Positive aspects:\n  - Excellent use of the balls of the feet with heels kept off the ground.\n  - Successfully absorbed the impact fully by descending into a deep, controlled crouch.\n  - The chest remained high throughout the landing phase, ensuring stability and preventing the use of hands for balance.\n  - Both feet landed simultaneously, distributing the force evenly across both legs.."
-}
+Land on balls of feet,1.0
+Absorb into crouch,1.0
+Legs long at ground contact,1.0
+Knees apart,0.5
+Chest high,1.0
+Land with control,1.0
+Feet close together,1.0
+Arms relaxed between knees,0.5
+Quiet landing,0.5
+Simultaneous foot contact,1.0

@@ -1,4 +1,10 @@
-{
-  "score": 7.0,
-  "feedbackText": "\n- Critical issues: None.\n- Important issues: \n\t- Legs should be long and relaxed when the athlete contacts the ground to ensure maximum absorbtion potential in the legs.\n- Nice-to-have improvements: While the landing was very good, ensure the chest remains a bit more upright throughout the entire motion to maximize stability and prevent any forward momentum.        \n- Positive aspects: Excellent technique, particularly the consistent use of the balls of the feet and the deep, controlled crouch that effectively absorbs the impact. The landing was quiet and controlled, and the knees remained appropriately spaced."
-}
+Land on balls of feet,1.0
+Absorb into crouch,1.0
+Legs long at ground contact,0.5
+Knees apart,1.0
+Chest high,0.5
+Land with control,1.0
+Feet close together,1.0
+Arms relaxed between knees,0.5
+Quiet landing,1.0
+Simultaneous foot contact,1.0

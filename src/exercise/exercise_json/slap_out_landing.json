@@ -1,0 +1,55 @@
+{
+  "name": "Parkour Slap-Out Landing",
+  "criteria": [
+    {
+      "name": "Land on balls of feet",
+      "long_description": "Land on the balls of the feet. Heels should never touch the ground, since this prevents you from absorbing the impact with your calves, instead sending the impact into your bones.",
+      "importance": "high"
+    },
+    {
+      "name": "Absorb into crouch",
+      "long_description": "Absorb all the way into a crouch, bending your knees and ankles. If you don't do this, you're not absorbing as much of the landing force as you could in your muscles.",
+      "importance": "high"
+    },
+    {
+      "name": "Legs long at ground contact",
+      "long_description": "Legs should be long when you reach the ground (not balled up in a crouch). This allows you more length to absorb the landing in your legs.",
+      "importance": "medium"
+    },
+    {
+      "name": "Knees apart",
+      "long_description": "Knees apart. If you knees are close together, you're likely to hit your face on your knees if you collapse forward during the landing.",
+      "importance": "medium"
+    },
+    {
+      "name": "Chest high",
+      "long_description": "Keep the chest high. You want to absorb the landing entirely with your legs; if you lean forward, you're likely to overbalance and end up using your wrists to absorb the impact or else falling over.",
+      "importance": "medium"
+    },
+    {
+      "name": "Land with control",
+      "long_description": "Land with control, and don't fall over. Otherwise, you might fall off of a narrow object you landed on.",
+      "importance": "medium"
+    },
+    {
+      "name": "Feet close together",
+      "long_description": "Keep the feet close together. Having your feet too far apart may reduce your ability to crouch completely and put strain on your hips.",
+      "importance": "medium"
+    },
+    {
+      "name": "Arms relaxed between knees",
+      "long_description": "Keep your arms relaxed, and put them between your knees. This isn't critical to the technique, but it serves as a shortcut to keeping your knees apart.",
+      "importance": "low"
+    },
+    {
+      "name": "Quiet landing",
+      "long_description": "The landing should be quiet. A loud landing indicates that the person is not absorbing the impact properly.",
+      "importance": "low"
+    },
+    {
+      "name": "Simultaneous foot contact",
+      "long_description": "Both feet land at the same time. If not, one leg might take on undue stress.",
+      "importance": "low"
+    }
+  ]
+}
