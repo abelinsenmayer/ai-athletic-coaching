@@ -187,3 +187,4 @@ Desktop.ini
 config.json
 secrets.json
 slapout_landing_clips/clips/*
+tmp_keyframes_out/
