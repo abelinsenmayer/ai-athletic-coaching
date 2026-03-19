@@ -1,10 +1,10 @@
-Land on balls of feet,0.0
-Absorb into crouch,0.0
-Legs long at ground contact,0.0
-Knees apart,0.0
+Land on balls of feet,1.0
+Absorb into crouch,0.5
+Legs long at ground contact,1.0
+Knees apart,1.0
 Chest high,0.0
 Land with control,0.0
-Feet close together,0.0
-Arms relaxed between knees,0.0
+Feet close together,1.0
+Arms relaxed between knees,1.0
 Quiet landing,0.0
-Simultaneous foot contact,0.0
+Simultaneous foot contact,1.0

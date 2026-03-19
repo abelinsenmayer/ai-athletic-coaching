@@ -8,37 +8,37 @@
     },
     {
       "name": "Absorb into crouch",
-      "long_description": "Absorb all the way into a crouch, bending your knees and ankles. If you don't do this, you're not absorbing as much of the landing force as you could in your muscles.",
+      "long_description": "Absorb all the way into a crouch, bending your knees and ankles. At the end of the absorption, your knees should be bent at least 90 degrees and your hips should be at the same height or lower than your knees (a deep squat). If you don't do this, you're not absorbing as much of the landing force as you could in your muscles.",
       "importance": "high"
     },
     {
       "name": "Legs long at ground contact",
-      "long_description": "Legs should be long when you reach the ground (not balled up in a crouch). This allows you more length to absorb the landing in your legs.",
+      "long_description": "Legs should be extended when your feet first touch the ground during the landing (not balled up in a crouch). Angle of the knees should be at least 130 degrees. Knees should not be locked. This allows you more length to absorb the landing in your legs.",
       "importance": "medium"
     },
     {
       "name": "Knees apart",
-      "long_description": "Knees apart. If you knees are close together, you're likely to hit your face on your knees if you collapse forward during the landing.",
+      "long_description": "Keep knees apart during the landing (knees should be wider than hip width). If you knees are close together, you're likely to hit your face on your knees if you collapse forward during the landing.",
       "importance": "medium"
     },
     {
       "name": "Chest high",
-      "long_description": "Keep the chest high. You want to absorb the landing entirely with your legs; if you lean forward, you're likely to overbalance and end up using your wrists to absorb the impact or else falling over.",
+      "long_description": "Keep the chest high, at least within 30-45 degrees from vertical. You want to absorb the landing entirely with your legs; if you lean forward, you're likely to overbalance and end up using your wrists to absorb the impact or else falling over.",
       "importance": "medium"
     },
     {
       "name": "Land with control",
-      "long_description": "Land with control, and don't fall over. Otherwise, you might fall off of a narrow object you landed on.",
+      "long_description": "Land with control, and don't fall over. A controlled landing shows that you've absorbed the impact properly and maintained balance. There should be minimum wobbling or instability at the end of the move.",
       "importance": "medium"
     },
     {
       "name": "Feet close together",
-      "long_description": "Keep the feet close together. Having your feet too far apart may reduce your ability to crouch completely and put strain on your hips.",
+      "long_description": "Keep the feet close together (roughly hip width apart). Having your feet too far apart may reduce your ability to crouch completely and put strain on your hips.",
       "importance": "medium"
     },
     {
       "name": "Arms relaxed between knees",
-      "long_description": "Keep your arms relaxed, and put them between your knees. This isn't critical to the technique, but it serves as a shortcut to keeping your knees apart.",
+      "long_description": "During the landing, arms should be relaxed and positioned in front of you,between your knees. Palms point toward the floor. This isn't critical to the technique, but it serves as a shortcut to keeping your knees apart.",
       "importance": "low"
     },
     {

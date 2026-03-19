@@ -7,6 +7,7 @@ import argparse
 import json
 import sys
 import threading
+from decimal import Decimal
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -17,7 +18,7 @@ from src.ollama.ollama_prompt import ollama_prompt
 from tests.eval_trial import EvalTrial, EvalTrialSuite
 
 # Global thread count for parallel execution
-THREAD_COUNT = 3
+THREAD_COUNT = 10
 
 
 def parse_eval_file(eval_path: Path) -> EvalResult:
@@ -205,7 +206,7 @@ def main():
         for i, actual_result in enumerate(trial.actual_results):
             grade = gradeEvaluation(trial.expected_result, actual_result)
             trial_grades.append(grade)
-            print(f"  Run {i+1} accuracy: {grade.get_accuracy_percentage():.2%}")
+            print(f"  Run {i+1} accuracy: {Decimal(grade.get_accuracy_percentage()):.2%}")
         
         all_grades.extend(trial_grades)
     
@@ -216,25 +217,32 @@ def main():
         avg_overall_accuracy = sum(overall_accuracies) / len(overall_accuracies)
         
         print(f"\n=== OVERALL ACCURACY ===")
-        print(f"  Average accuracy: {avg_overall_accuracy:.2%}")
+        print(f"  Average accuracy: {Decimal(avg_overall_accuracy):.2%}")
         
-        # Collect criterion-specific accuracies
+        # Collect criterion-specific accuracies and off_by values
         criterion_accuracies = {}
         criterion_counts = {}
+        criterion_off_by_sums = {}
         
         for grade in all_grades:
             for criterion_name, accuracy in grade.criterion_scores.items():
                 if criterion_name not in criterion_accuracies:
                     criterion_accuracies[criterion_name] = 0.0
                     criterion_counts[criterion_name] = 0
+                    criterion_off_by_sums[criterion_name] = 0.0
                 criterion_accuracies[criterion_name] += float(accuracy)
                 criterion_counts[criterion_name] += 1
+                criterion_off_by_sums[criterion_name] += grade.criterion_off_by[criterion_name]
         
-        # Calculate average accuracy for each criterion
+        # Calculate average accuracy and off_by for each criterion
         print(f"\n=== CRITERION-BY-CRITERION ACCURACY ===")
         for criterion_name in sorted(criterion_accuracies.keys()):
             avg_accuracy = criterion_accuracies[criterion_name] / criterion_counts[criterion_name]
-            print(f"  {criterion_name}: {avg_accuracy:.2%}")
+            avg_off_by = criterion_off_by_sums[criterion_name] / criterion_counts[criterion_name]
+            
+            # Format off_by with sign and percentage
+            off_by_str = f"{Decimal(avg_off_by):+.1%}" if avg_off_by != 0 else "0.0%"
+            print(f"  {criterion_name}: {Decimal(avg_accuracy):.2%} (avg off by: {off_by_str})")
         
         print("=" * 50)
 

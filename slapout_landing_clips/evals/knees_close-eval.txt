@@ -3,8 +3,8 @@ Absorb into crouch,1.0
 Legs long at ground contact,1.0
 Knees apart,0.5
 Chest high,1.0
-Land with control,1.0
+Land with control,0.5
 Feet close together,1.0
-Arms relaxed between knees,0.5
+Arms relaxed between knees,0.0
 Quiet landing,0.5
 Simultaneous foot contact,1.0

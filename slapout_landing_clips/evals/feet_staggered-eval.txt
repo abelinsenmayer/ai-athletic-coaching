@@ -5,6 +5,6 @@ Knees apart,1.0
 Chest high,1.0
 Land with control,1.0
 Feet close together,0.5
-Arms relaxed between knees,0.5
+Arms relaxed between knees,1.0
 Quiet landing,0.5
 Simultaneous foot contact,0.5
