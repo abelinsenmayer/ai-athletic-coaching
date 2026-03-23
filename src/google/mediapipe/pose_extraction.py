@@ -8,7 +8,7 @@ import cv2
 from src.pose.pose import Pose
 
 
-def extract_pose_from_image(image_path: str):
+def extract_pose_from_image(image_path: str) -> Pose:
     """
     Extract pose landmarks from an image at the given path.
     
@@ -35,19 +35,13 @@ def extract_pose_from_image(image_path: str):
     with PoseLandmarker.create_from_options(options) as landmarker:
         # Perform pose landmarking on the provided image
         pose_landmarker_result = landmarker.detect(mp_image)
-        # print(f"Pose landmarker result: {pose_landmarker_result}")
-
-        # preview_segmentation_mask(pose_landmarker_result.segmentation_masks[0])
         
-        # Convert to Pose representation and print
+        # Convert to Pose representation and return
         pose = Pose()
         cv2img = cv2.imread(image_path)
         h, w, _ = cv2img.shape
-        cv2.imshow("Image", cv2img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
         pose.from_pose_landmarker_result(pose_landmarker_result, w, h)
-        pose.plot()
+        return pose
 
 
 def preview_image(image_path):
