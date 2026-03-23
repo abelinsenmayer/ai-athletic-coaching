@@ -10,11 +10,13 @@ import threading
 from decimal import Decimal
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+import os
 
 from src.evaluation.eval_result import EvalResult
 from src.evaluation.evaluate_clip import evaluateClip
-from src.evaluation.grade_evaluation import gradeEvaluation
+from src.evaluation.grade_evaluation import gradeEvaluation, EvaluationGrade
 from src.ollama.ollama_prompt import ollama_prompt
+from src.exercise.exercise import Exercise
 from tests.eval_trial import EvalTrial, EvalTrialSuite
 
 # Global thread count for parallel execution
@@ -91,7 +93,7 @@ def find_clip_eval_pairs(root_dir: Path) -> list[tuple[Path, Path]]:
     return pairs
 
 
-def create_trial_suite(root_dir: Path, run_count: int = 3) -> EvalTrialSuite:
+def create_trial_suite(root_dir: Path, exercise_name: str, run_count: int = 3) -> EvalTrialSuite:
     """
     Create an EvalTrialSuite from clip-eval pairs in the directory structure.
     
@@ -103,6 +105,11 @@ def create_trial_suite(root_dir: Path, run_count: int = 3) -> EvalTrialSuite:
         EvalTrialSuite populated with trials for all clip-eval pairs
     """
     pairs = find_clip_eval_pairs(root_dir)
+    template_video_path = f'./src/exercise/exercise_sources/{exercise_name}/template.mp4'
+    print(f"Working directory: {os.getcwd()}")
+
+    exercise = Exercise.create_from_sources(criteria_json_path=f"./src/exercise/exercise_sources/{exercise_name}/criteria.json", template_video_path=template_video_path)
+    
     suite = EvalTrialSuite()
     
     for clip_path, eval_path in pairs:
@@ -114,7 +121,8 @@ def create_trial_suite(root_dir: Path, run_count: int = 3) -> EvalTrialSuite:
         trial = EvalTrial(
             clip_name=clip_name,
             expected_result=expected_result,
-            actual_results=[]
+            actual_results=[],
+            execise=exercise,
         )
         
         # Add trial to suite with specified run count
@@ -133,7 +141,7 @@ def run_single_trial(clip_path: Path, trial: EvalTrial) -> None:
     """
     try:
         # Evaluate the clip
-        actual_result = evaluateClip(clip_path)
+        actual_result = evaluateClip(clip_path, trial.execise)
         
         # Add result to trial (thread-safe)
         trial.add_actual_result(actual_result)
@@ -146,11 +154,13 @@ def main():
     """Main function for the test runner."""
     parser = argparse.ArgumentParser(description='Test video clip evaluation system')
     parser.add_argument('root_dir', type=Path, help='Root directory containing clips and evals subdirectories')
-    parser.add_argument('--trials', type=int, default=3, help='Number of times each trial should be run (default: 3)')
+    parser.add_argument('--trials', type=int, default=1, help='Number of times each trial should be run (default: 1)')
+    parser.add_argument('--exercise', type=str, help='Exercise name')
     
     args = parser.parse_args()
     
     root_dir = args.root_dir.resolve()
+    exercise_name = args.exercise
     
     if not root_dir.exists():
         print(f"Error: Root directory {root_dir} does not exist")
@@ -160,7 +170,7 @@ def main():
     validate_directory_structure(root_dir)
     
     # Create trial suite
-    suite = create_trial_suite(root_dir, args.trials)
+    suite = create_trial_suite(root_dir, exercise_name, args.trials)
     
     if not suite.get_all_trials():
         print("No clip-eval pairs found")
@@ -196,7 +206,7 @@ def main():
     print(f"\nCompleted processing. Total runs completed: {suite.get_completed_runs()}")
     
     # Grade all trials and collect results
-    all_grades = []
+    all_grades: list[EvaluationGrade] = []
     for clip_name, trial in suite.get_all_trials().items():
         print(f"\nGrading trial: {clip_name}")
         print(f"  Runs completed: {trial.get_trial_count()}")

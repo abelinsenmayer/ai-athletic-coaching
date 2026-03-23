@@ -10,11 +10,12 @@ from google.genai import types
 
 from ..evaluation.eval_result import EvalResult
 from ..exercise.criterion import Importance
+from ..exercise.exercise import Exercise
 
 GEMINI_MODEL = "gemini-3.1-flash-lite-preview"
 
 
-def _build_prompt_from_exercise(exercise) -> str:
+def _build_prompt_from_exercise(exercise: Exercise) -> str:
     """Build evaluation prompt from Exercise criteria using template file."""
     # Read prompt template
     prompt_path = Path(__file__).parent / "prompts" / "evaluation_prompt.txt"
@@ -31,19 +32,19 @@ def _build_prompt_from_exercise(exercise) -> str:
     if high_criteria:
         criteria_sections += "Critical features (failing to satisfy these will reduce final score by at least 6 each):\n"
         for criterion in high_criteria:
-            criteria_sections += f"- {criterion.long_description}\n"
+            criteria_sections += f"- Criterion name: {criterion.name}: Criterion description: {criterion.long_description}\n"
         criteria_sections += "\n"
     
     if medium_criteria:
         criteria_sections += "Important features (failing to satisfy these will reduce final score by at least 3 each):\n"
         for criterion in medium_criteria:
-            criteria_sections += f"- {criterion.long_description}\n"
+            criteria_sections += f"- Criterion name: {criterion.name}: Criterion description: {criterion.long_description}\n"
         criteria_sections += "\n"
     
     if low_criteria:
         criteria_sections += "Nice-to-have features (failing to satisfy these may or may not reduce final score, but they are nice to have):\n"
         for criterion in low_criteria:
-            criteria_sections += f"- {criterion.long_description}\n"
+            criteria_sections += f"- Criterion name: {criterion.name}: Criterion description: {criterion.long_description}\n"
         criteria_sections += "\n"
     
     # Format template with exercise data
@@ -52,14 +53,14 @@ def _build_prompt_from_exercise(exercise) -> str:
         criteria_sections=criteria_sections.strip()
     )
 
-def evaluate_video_with_gemini(video_path: str, exercise_file_path: str = None) -> EvalResult:
+def evaluate_video_with_gemini(video_path: str, exercise: Exercise) -> EvalResult:
     """
     Evaluate a video clip using Google's Gemini model.
     For this to work, the API key must be set in the environment variable GEMINI_API_KEY.
     
     Args:
         video_path: Path to the video file to evaluate
-        exercise_file_path: Path to JSON file containing exercise definition
+        exercise: Exercise object containing criteria to evaluate against
         
     Returns:
         EvalResult with score (0-10) and qualitative feedback
@@ -76,9 +77,7 @@ def evaluate_video_with_gemini(video_path: str, exercise_file_path: str = None) 
         video_file = client.files.get(name=video_file.name)
 
     # Prompt the model to evaluate the video
-    if exercise_file_path:
-        from ..exercise.exercise import Exercise
-        exercise = Exercise.from_json(exercise_file_path)
+    if video_path:
         prompt = _build_prompt_from_exercise(exercise)
     else:
         prompt_path = Path(__file__).parent / "prompts" / "evaluation_prompt.txt"
@@ -89,7 +88,6 @@ def evaluate_video_with_gemini(video_path: str, exercise_file_path: str = None) 
     config = types.GenerateContentConfig(
         media_resolution=types.MediaResolution.MEDIA_RESOLUTION_LOW
     )
-
 
     # Analyze with Gemini 3 Flash
     response = client.models.generate_content(

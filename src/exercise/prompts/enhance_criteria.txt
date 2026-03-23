@@ -1,0 +1,19 @@
+CRITERIA DESCRIPTION:
+{criterion_description}
+
+KEY POSES:
+{key_poses}
+
+Analyze the key poses and identify specific features that should be emphasized in the criterion. Confine your observations to objective measurements and positions that can be directly observed in the pose(s).
+
+Return only your enhancements to the exiting crtieria as paragraph of short sentences. Do not provide additional detail or formatting.
+
+Example inputs:
+CRITERIA DESCRIPTION:
+Land on the balls of the feet. Heels should never touch the ground, since this prevents you from absorbing the impact with your calves, instead sending the impact into your bones.
+
+KEY POSES:
+{key_poses}
+
+Example output:
+In the landing pose and all subsequent poses, the angle of the ankle (between the foot index, ankle, and knee) should always be less than 85 degrees in either leg. In the landing pose, the foot index nodes should be the lowest points of the foot.

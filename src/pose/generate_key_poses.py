@@ -12,7 +12,7 @@ from src.pose.pose import Pose
 from src.google.mediapipe.pose_extraction import extract_pose_from_image
 
 
-def generate_poses_from_keyframes(video_path: str) -> List[Pose]:
+def generate_key_poses(video_path: str) -> List[Pose]:
     """
     Extract keyframes from an MP4 video file and generate poses from each keyframe.
     
@@ -92,7 +92,7 @@ def main():
         return 1
     
     try:
-        poses = generate_poses_from_keyframes(args.video_path)
+        poses = generate_key_poses(args.video_path)
         
         if poses:
             print(f"\nGenerated {len(poses)} poses:")

@@ -214,4 +214,5 @@ class Pose:
             node.z *= scale_factor
     
     def __repr__(self):
-        return f"Pose(nodes={len(self.nodes)}, vector_size={len(self.vectorRepresentation)})"
+        nodes = ", ".join([f"{name}:{node}" for name, node in self.nodes.items()])
+        return f"Pose(nodes={nodes})"

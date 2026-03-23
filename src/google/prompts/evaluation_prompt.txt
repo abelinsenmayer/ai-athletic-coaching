@@ -8,6 +8,8 @@ For each criterion listed above, evaluate how well the athlete performed:
 - Score 0.5 if the athlete somewhat met the criterion (ADEQUATE) 
 - Score 0.0 if the athlete did not meet the criterion at all (POOR)
 
+Note that each bullet point is a single criterion, regardless of how many sentences follow.
+
 Return your response in the following format:
 One line per criterion in the format "criterion_name,score"
 

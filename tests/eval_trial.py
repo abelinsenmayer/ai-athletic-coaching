@@ -8,12 +8,14 @@ from typing import List, Dict, Optional
 from pathlib import Path
 
 from src.evaluation.eval_result import EvalResult
+from src.exercise.exercise import Exercise
 
 
 @dataclass
 class EvalTrial:
     """Represents a single evaluation trial for a video clip."""
     clip_name: str
+    execise: Exercise
     expected_result: EvalResult
     actual_results: List[EvalResult] = field(default_factory=list)
     
